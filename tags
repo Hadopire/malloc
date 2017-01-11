@@ -1,0 +1,19 @@
+ISFREE	main.c	/^#define ISFREE(magic) ((magic & 0x1) == 0x1)$/
+ISMAGIC	main.c	/^#define ISMAGIC(magic) ((magic & MAGIC) == MAGIC)$/
+Mmain	main.c	/^int main()$/
+add_region_to_list	main.c	/^void add_region_to_list(t_mem_region *region)$/
+byte	main.c	/^typedef unsigned char byte;$/
+create_region	main.c	/^t_mem_region *create_region(size_t region_size, si/
+free	main.c	/^void free(void *ptr)$/
+get_available_region	main.c	/^t_mem_region *get_available_region(size_t size)$/
+get_block_size	main.c	/^size_t get_block_size(t_mem_block *block, t_mem_re/
+get_free_memory	main.c	/^void *get_free_memory(t_mem_region *region, size_t/
+get_memory	main.c	/^t_memory *get_memory(void)$/
+get_region_size	main.c	/^size_t get_region_size(size_t size)$/
+malloc	main.c	/^void *malloc(size_t size)$/
+realloc	main.c	/^void *realloc(void *ptr, size_t size)$/
+t_mem_block	main.c	/^}               t_mem_block;$/
+t_mem_region	main.c	/^}               t_mem_region;$/
+t_memory	main.c	/^}               t_memory;$/
+update_first_free_block	main.c	/^void update_first_free_block(t_mem_block *block, t/
+update_largest_free_block	main.c	/^void update_largest_free_block(t_mem_block *block,/
