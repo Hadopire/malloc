@@ -42,7 +42,7 @@ void			release_big(t_mem_block *block)
 	if (block->region->next)
 		block->region->next->prev = block->region->prev;
 	munmap(block->region, block->region->size);
-	return;
+	return ;
 }
 
 void			release(t_mem_block *block)
@@ -55,7 +55,7 @@ void			release(t_mem_block *block)
 		block->region->size != memory->small)
 	{
 		release_big(block);
-		return;
+		return ;
 	}
 	region = memory->regions;
 	while (region)
@@ -67,7 +67,7 @@ void			release(t_mem_block *block)
 			if (region->next)
 				region->next->prev = region->prev;
 			munmap(block->region, block->region->size);
-			return;
+			return ;
 		}
 		region = region->next;
 	}
@@ -76,14 +76,17 @@ void			release(t_mem_block *block)
 void			free(void *ptr)
 {
 	t_mem_block		*block;
+	size_t			max_free_space;
 
 	if (!ptr)
-		return;
+		return ;
 	block = (t_mem_block*)(ptr - sizeof(t_mem_block));
 	if (!ISMAGIC(block->settings) || ISFREE(block->settings))
-		return;
+		return ;
 	block->settings ^= 0x1;
 	defrag(block);
-	if (block->size == block->region->size - sizeof(t_mem_region) - sizeof(t_mem_block))
+	max_free_space = block->region->size;
+	max_free_space -= sizeof(t_mem_region) - sizeof(t_mem_block);
+	if (block->size == max_free_space)
 		release(block);
 }

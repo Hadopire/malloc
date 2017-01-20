@@ -28,7 +28,7 @@ size_t	print_block(t_mem_block *block)
 {
 	print_addr(block + 1);
 	ft_putstr(" - ");
-	print_addr((void*)block + block->size);
+	print_addr((void*)(block + 1) + block->size);
 	ft_putstr(" : ");
 	ft_putnbr(block->size);
 	ft_putendl(" octets");
@@ -36,7 +36,7 @@ size_t	print_block(t_mem_block *block)
 }
 
 size_t	print_regions_of_size(t_memory *mem, t_mem_region *r,
-								size_t size, int l, const char *type)
+								size_t size, const char *type)
 {
 	size_t			total_size;
 	t_mem_block		*block;
@@ -44,7 +44,8 @@ size_t	print_regions_of_size(t_memory *mem, t_mem_region *r,
 	total_size = 0;
 	while (r != NULL)
 	{
-		if (r->size == size || (l && r->size != mem->small && r->size != mem->tiny))
+		if (r->size == size || (!size && r->size != mem->small
+			&& r->size != mem->tiny))
 		{
 			ft_putstr(type);
 			ft_putstr(" : ");
@@ -59,10 +60,10 @@ size_t	print_regions_of_size(t_memory *mem, t_mem_region *r,
 		}
 		r = r->next;
 	}
-	return total_size;
+	return (total_size);
 }
 
-void	show_alloc_mem()
+void	show_alloc_mem(void)
 {
 	t_memory		*mem;
 	t_mem_region	*region;
@@ -71,12 +72,10 @@ void	show_alloc_mem()
 	mem = get_memory();
 	region = mem->regions;
 	total_size = 0;
-
-	total_size += print_regions_of_size(mem, region, mem->tiny, 0, "TINY");
-	total_size += print_regions_of_size(mem, region, mem->small, 0, "SMALL");
-	total_size += print_regions_of_size(mem, region, 0, 1, "LARGE");
+	total_size += print_regions_of_size(mem, region, mem->tiny, "TINY");
+	total_size += print_regions_of_size(mem, region, mem->small, "SMALL");
+	total_size += print_regions_of_size(mem, region, 0, "LARGE");
 	ft_putstr("total size: ");
 	ft_putnbr(total_size);
 	ft_putendl(" octets");
 }
-

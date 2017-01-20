@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #ifndef FREE_H
-#define FREE_H
+# define FREE_H
 
-#include "malloc.h"
+# include "malloc.h"
 
 void			defrag(t_mem_block *block);
 void			release_big(t_mem_block *block);

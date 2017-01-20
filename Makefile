@@ -1,16 +1,9 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ncharret <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/01/05 19:16:41 by ncharret          #+#    #+#              #
-#    Updated: 2017/01/11 18:44:44 by ncharret         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-NAME = malloc
-SRC = main.c show_alloc_mem.c print.c free.c
+ifeq ($(HOSTTYPE),)
+		HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+NAME = libft_malloc_$(HOSTTYPE).so
+SRC = main.c show_alloc_mem.c print.c free.c region.c block.c
 OBJ = $(SRC:.c=.o)
 HEADER = ./libft/
 CODE_DIR = libft/
@@ -25,8 +18,9 @@ libft.a:
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(CODE_DIR)
-	@gcc -o $(NAME) $(OBJ) -L./libft -lft
+	@gcc -o $(NAME) $(OBJ) -L./libft -lft -shared
 	@echo "\\033[1;32m$(NAME) was created."
+	@ln -f -s libft_malloc_$(HOSTTYPE).so libft_malloc.so
 
 %.o: %.c
 	@gcc $(FLAGS) -o $@ -c $^ -I $(HEADER)
